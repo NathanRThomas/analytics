@@ -7,9 +7,9 @@ to be used for other applications
 Designed as a transparent wrapper.  So you can pass in authetication credentials for any third-party analytics platform,
  and this will be able to handle events and page views.  
 
-Currently only funcational for Google Analytics
+Currently only funcational for Google Analytics (GA)
   
-
+In order for this to work with GA you need to create a property of the type "Website".  
   
 # dependencies
 go get github.com/ajg/form

@@ -41,6 +41,7 @@ type gaParams struct {
     Page        string  `form:"dl,omitempty"`
     Screen      string  `form:"cd,omitempty"`
     App         string  `form:"an,omitempty"`
+    Title       string  `form:"dt,omitempty"`
 }
 
 type Client struct {
@@ -108,7 +109,8 @@ func (c Client) Page (clientID, countryCode, referrer, page string) (error) {
     //now figure out which analytics backend we're using
     switch c.trackingType {
         case anal_tracking_type_ga:
-            params := gaParams {UserID: clientID, HitType: "pageview", DataSource: referrer, Location: countryCode, Page: page}
+            params := gaParams {UserID: clientID, HitType: "pageview", DataSource: referrer, Location: countryCode,
+                Page: page, Title: page}
             return c.postGA (params)
     }
     return nil
@@ -118,7 +120,8 @@ func (c Client) Screen (clientID, countryCode, referrer, screen string) (error) 
     //now figure out which analytics backend we're using
     switch c.trackingType {
         case anal_tracking_type_ga:
-            params := gaParams {UserID: clientID, HitType: "screenview", DataSource: referrer, Location: countryCode, Screen: screen}
+            params := gaParams {UserID: clientID, HitType: "screenview", DataSource: referrer, Location: countryCode,
+                Screen: screen, Title: screen}
             //fmt.Printf("%+v\n", params)
             return c.postGA (params)
     }
