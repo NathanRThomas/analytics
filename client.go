@@ -9,6 +9,7 @@ import (
     "fmt"
     "net/http"
 //    "strconv"
+    "io/ioutil"
     
     "github.com/ajg/form"
     )
@@ -76,11 +77,19 @@ func (c Client) postGA (params gaParams) (error) {
         
         client := &http.Client{}
         resp, err := client.Do(req)
-        //fmt.Printf("%+v\n", resp)
         if err != nil {
             return fmt.Errorf("Google Analytics client Failed: " + err.Error())
         }
         defer resp.Body.Close() //we're done with this request
+
+        //fmt.Printf("%+v\n", resp)
+        if resp.StatusCode > 299 {
+            //fmt.Println("response Status:", resp.Status)
+            //fmt.Println("response Headers:", resp.Header)
+            rBody, _ := ioutil.ReadAll(resp.Body)
+            err = fmt.Errorf("Google Analytics client Failed: %d : %s", resp.StatusCode, string(rBody[:]))
+        }
+
         return nil
     } else {
         return fmt.Errorf("Google Analytics client Failed: " + err.Error())
